@@ -8,11 +8,11 @@ using SandBox.View.Map;
 
 namespace BetterSaveLoad
 {
-    // This mod adds functionality for quick loading and incremental quick saving.
+    // This mod adds functionality for quick loading and incremental quick saving, as well as auto saving before battles.
     public class BetterSaveLoadSubModule : MBSubModuleBase
     {
         protected override void OnSubModuleLoad() => new Harmony("mod.bannerlord.bettersaveload").PatchAll();
-        // Quick save or quick load when the respective keys are pressed.
+        // Quick save or quick load when the respective keys are pressed. Auto save when the player enters a battle.
         protected override void OnApplicationTick(float dt)
         {
             if (ScreenManager.TopScreen is MapScreen)

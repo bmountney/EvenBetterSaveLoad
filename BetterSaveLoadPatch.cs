@@ -22,7 +22,8 @@ namespace BetterSaveLoad
         [HarmonyPostfix]
         [HarmonyPatch("OnNewGame")]
         public static void Postfix2(string ___ActiveSaveSlotName) => ActiveSaveSlotName = ___ActiveSaveSlotName;
-        // Increment the quick save index. Replace the save file name with a custom one with the quick save index.
+        // Increment the quick save index. Reset the quick save index if it is greater than the maximum number in the settings.
+        // Replace the save file name with a custom one with the quick save index.
         // Display the file name of the saved game in a debug message.
         [HarmonyPatch("QuickSaveCurrentGame")]
         public static void Prefix(ref string ___ActiveSaveSlotName)
@@ -93,6 +94,10 @@ namespace BetterSaveLoad
             GameStateManager.Current = Module.CurrentModule.GlobalGameStateManager;
             MBGameManager.StartNewGame(new SandBoxGameManager(loadResult));
         }
+        // Do not execute if a battle auto save was loaded to prevent auto saving again.
+        // Execute only if the numbers of attackers and defenders are greater than or equal to the minimum numbers in the settings.
+        // Increment the battle auto save index. Reset the battle auto save index if it is greater than the maximum number in the settings.
+        // Display the file name of the saved game in a debug message.
         public static void AutoSaveBeforeBattle(MapEvent playerMapEvent)
         {
             if (!HasLoadedAutoSave)
