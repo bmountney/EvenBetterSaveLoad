@@ -38,6 +38,7 @@ namespace BetterSaveLoad
             InformationManager.DisplayMessage(new InformationMessage("Game saved: \"" + ActiveSaveSlotName + "\"."));
         }
         // Set the quick save index to the highest number in the list of quick save file names.
+        // Set the battle auto save index to the highest number in the list of battle auto save file names.
         // Display the file name of the loaded game in a debug message.
         public static void InitializeSaveIndexes()
         {
