@@ -34,6 +34,9 @@
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.Harmony\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="MCMv4">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCMv4.dll</HintPath>
+    </Reference>
     <Reference Include="SandBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
@@ -67,6 +70,10 @@
     <Reference Include="TaleWorlds.MountAndBlade">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.dll</HintPath>
     </Reference>
+    <Reference Include="TaleWorlds.ObjectSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
+    </Reference>
     <Reference Include="TaleWorlds.SaveSystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.SaveSystem.dll</HintPath>
@@ -74,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BetterSaveLoadPatch.cs" />
+    <Compile Include="BetterSaveLoadSettings.cs" />
     <Compile Include="BetterSaveLoadSubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
