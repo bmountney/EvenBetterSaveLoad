@@ -13,7 +13,7 @@ using SandBox;
 namespace BetterSaveLoad
 {
     [HarmonyPatch(typeof(MBSaveLoad))]
-    public static class BetterSaveLoadHelper
+    public static class BetterSaveLoadPatch
     {
         // Get the name of the currently loaded save file.
         [HarmonyPostfix]

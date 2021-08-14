@@ -25,18 +25,18 @@ namespace BetterSaveLoad
                     }
                     else if (Input.IsKeyPressed(InputKey.L))
                     {
-                        BetterSaveLoadHelper.QuickLoadPreviousGame();
+                        BetterSaveLoadPatch.QuickLoadPreviousGame();
                     }
                 }
                 if (Input.IsKeyPressed(InputKey.F9))
                 {
-                    BetterSaveLoadHelper.QuickLoadPreviousGame();
+                    BetterSaveLoadPatch.QuickLoadPreviousGame();
                 }
                 if (MapEvent.PlayerMapEvent != null)
                 {
                     if (!_isAutoSaving)
                     {
-                        BetterSaveLoadHelper.AutoSaveBeforeBattle(MapEvent.PlayerMapEvent);
+                        BetterSaveLoadPatch.AutoSaveBeforeBattle(MapEvent.PlayerMapEvent);
                         _isAutoSaving = true;
                     }
                 }
@@ -46,8 +46,8 @@ namespace BetterSaveLoad
                 }
             }
         }
-        public override void OnGameLoaded(Game game, object initializerObject) => BetterSaveLoadHelper.InitializeSaveIndexes();
-        public override void OnNewGameCreated(Game game, object initializerObject) => BetterSaveLoadHelper.InitializeSaveIndexes();
+        public override void OnGameLoaded(Game game, object initializerObject) => BetterSaveLoadPatch.InitializeSaveIndexes();
+        public override void OnNewGameCreated(Game game, object initializerObject) => BetterSaveLoadPatch.InitializeSaveIndexes();
         private bool _isAutoSaving;
     }
 }
