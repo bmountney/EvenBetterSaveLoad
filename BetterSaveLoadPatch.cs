@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -81,7 +81,7 @@ namespace BetterSaveLoad
         public static void QuickLoadPreviousGame()
         {
             SaveGameFileInfo[] saveFiles = MBSaveLoad.GetSaveFiles(null);
-            if (saveFiles.IsEmpty<SaveGameFileInfo>())
+            if (saveFiles.IsEmpty())
             {
                 InformationManager.DisplayMessage(new InformationMessage("No save files to load!"));
                 return;
@@ -99,11 +99,11 @@ namespace BetterSaveLoad
         // Execute only if the numbers of attackers and defenders are greater than or equal to the minimum numbers in the settings.
         // Increment the battle auto save index. Reset the battle auto save index if it is greater than the maximum number in the settings.
         // Display the file name of the saved game in a debug message.
-        public static void AutoSaveBeforeBattle(MapEvent playerMapEvent)
+        public static void AutoSaveBeforeBattle(MapEvent mapEvent)
         {
             if (!HasLoadedAutoSave)
             {
-                if (Settings.ShouldAutoSaveBeforeBattle && playerMapEvent.AttackerSide.TroopCount >= Settings.MinAttackerTroopCount && playerMapEvent.DefenderSide.TroopCount >= Settings.MinDefenderTroopCount)
+                if (Settings.ShouldAutoSaveBeforeBattle && mapEvent.AttackerSide.TroopCount >= Settings.MinAttackerTroopCount && mapEvent.DefenderSide.TroopCount >= Settings.MinDefenderTroopCount)
                 {
                     BattleAutoSaveIndex++;
                     if (Settings.ShouldLimitSaves && BattleAutoSaveIndex > Settings.BattleAutoSaveLimit)
@@ -122,10 +122,10 @@ namespace BetterSaveLoad
         }
         private static int QuickSaveIndex = 0;
         private static int BattleAutoSaveIndex = 0;
-        private static string QuickSaveNamePrefix = "save_quick_";
-        private static string BattleAutoSaveNamePrefix = "save_auto_battle_";
         private static string ActiveSaveSlotName = null;
         private static bool HasLoadedAutoSave = false;
-        private static BetterSaveLoadSettings Settings = BetterSaveLoadSettings.Instance;
+        private static readonly string QuickSaveNamePrefix = "save_quick_";
+        private static readonly string BattleAutoSaveNamePrefix = "save_auto_battle_";
+        private static readonly BetterSaveLoadSettings Settings = BetterSaveLoadSettings.Instance;
     }
 }
