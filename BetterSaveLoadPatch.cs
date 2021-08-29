@@ -63,11 +63,11 @@ namespace BetterSaveLoad
                     }
                 }
             }
-            if (list.Count > 0)
+            if (list.Any())
             {
                 QuickSaveIndex = list.Max();
             }
-            if (list2.Count > 0)
+            if (list2.Any())
             {
                 BattleAutoSaveIndex = list2.Max();
             }
