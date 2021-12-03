@@ -80,7 +80,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BetterSaveLoadPatch.cs" />
+    <Compile Include="BetterSaveLoadBehavior.cs" />
+    <Compile Include="BetterSaveLoadManager.cs" />
     <Compile Include="BetterSaveLoadSettings.cs" />
     <Compile Include="BetterSaveLoadSubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

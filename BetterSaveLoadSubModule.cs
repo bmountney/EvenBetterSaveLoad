@@ -12,7 +12,15 @@ namespace BetterSaveLoad
     public class BetterSaveLoadSubModule : MBSubModuleBase
     {
         protected override void OnSubModuleLoad() => new Harmony("mod.bannerlord.bettersaveload").PatchAll();
-        // Quick save or quick load when the respective keys are pressed. Auto save when the player enters a battle.
+        protected override void OnGameStart(Game game, IGameStarter gameStarter)
+        {
+            if (game.GameType is Campaign)
+            {
+                CampaignGameStarter campaignStarter = (CampaignGameStarter)gameStarter;
+                campaignStarter.AddBehavior(new BetterSaveLoadBehavior());
+            }
+        }
+        // Quick save or quick load when the respective keys are pressed.
         protected override void OnApplicationTick(float dt)
         {
             if (ScreenManager.TopScreen is MapScreen)
@@ -25,29 +33,14 @@ namespace BetterSaveLoad
                     }
                     else if (Input.IsKeyPressed(InputKey.L))
                     {
-                        BetterSaveLoadPatch.QuickLoadPreviousGame();
+                        BetterSaveLoadManager.QuickLoadPreviousGame();
                     }
                 }
                 if (Input.IsKeyPressed(InputKey.F9))
                 {
-                    BetterSaveLoadPatch.QuickLoadPreviousGame();
-                }
-                if (MapEvent.PlayerMapEvent != null)
-                {
-                    if (!_isAutoSaving)
-                    {
-                        BetterSaveLoadPatch.AutoSaveBeforeBattle(MapEvent.PlayerMapEvent);
-                        _isAutoSaving = true;
-                    }
-                }
-                else
-                {
-                    _isAutoSaving = false;
+                    BetterSaveLoadManager.QuickLoadPreviousGame();
                 }
             }
         }
-        public override void OnGameLoaded(Game game, object initializerObject) => BetterSaveLoadPatch.InitializeSaveIndexes();
-        public override void OnNewGameCreated(Game game, object initializerObject) => BetterSaveLoadPatch.InitializeSaveIndexes();
-        private bool _isAutoSaving;
     }
 }
