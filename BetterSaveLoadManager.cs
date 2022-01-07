@@ -1,14 +1,14 @@
-﻿using System;
+﻿using HarmonyLib;
+using SandBox;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.SaveSystem;
 using TaleWorlds.SaveSystem.Load;
-using SandBox;
 
 namespace BetterSaveLoad
 {
@@ -79,13 +79,13 @@ namespace BetterSaveLoad
         // Get the latest quick save, manual save or auto save.
         public static void QuickLoadPreviousGame()
         {
-            SaveGameFileInfo[] saveFiles = MBSaveLoad.GetSaveFiles(null);
-            if (saveFiles.IsEmpty())
+            SaveGameFileInfo saveFileWithName = MBSaveLoad.GetSaveFileWithName(BannerlordConfig.LatestSaveGameName);
+            if (saveFileWithName != null && !saveFileWithName.IsCorrupted)
             {
-                InformationManager.DisplayMessage(new InformationMessage("No save files to load!"));
+                SaveHelper.TryLoadSave(saveFileWithName, new Action<LoadResult>(StartGame), null);
                 return;
             }
-            SaveHelper.TryLoadSave(saveFiles.MaxBy((SaveGameFileInfo s) => s.MetaData.GetCreationTime()), new Action<LoadResult>(StartGame), null);
+            InformationManager.DisplayMessage(new InformationMessage("No save files to load!"));
         }
         private static void StartGame(LoadResult loadResult)
         {
