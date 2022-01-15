@@ -2,7 +2,6 @@
 using SandBox;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Engine.Screens;
@@ -37,39 +36,33 @@ namespace BetterSaveLoad
             ActiveSaveSlotName = ___ActiveSaveSlotName;
             InformationManager.DisplayMessage(new InformationMessage("Game saved: \"" + ActiveSaveSlotName + "\"."));
         }
-        // Set the quick save index to the highest number in the list of quick save file names.
-        // Set the battle auto save index to the highest number in the list of battle auto save file names.
+        // Set the quick save index to the number in the latest quick save file name.
+        // Set the battle auto save index to the number in the latest battle auto save file name.
         // Display the file name of the loaded game in a debug message.
         public static void InitializeSaveIndexes()
         {
-            List<int> list = new List<int>();
-            List<int> list2 = new List<int>();
-            foreach (string text in MBSaveLoad.GetSaveFileNames())
+            string quickSaveName = string.Empty;
+            string battleAutoSaveName = string.Empty;
+            List<SaveGameFileInfo> saveFiles = new List<SaveGameFileInfo>(MBSaveLoad.GetSaveFiles());
+            saveFiles.Reverse();
+            foreach (SaveGameFileInfo saveFile in saveFiles)
             {
-                if (text.Contains(QuickSaveNamePrefix))
+                if (saveFile.Name.StartsWith(QuickSaveNamePrefix))
                 {
-                    string[] array = text.Split(new char[] { '_' });
-                    if (array.Length == 3 && int.TryParse(array[array.Length - 1], out int num) && num > 0)
-                    {
-                        list.Add(num);
-                    }
+                    quickSaveName = saveFile.Name;
                 }
-                if (text.Contains(BattleAutoSaveNamePrefix))
+                if (saveFile.Name.StartsWith(BattleAutoSaveNamePrefix))
                 {
-                    string[] array = text.Split(new char[] { '_' });
-                    if (array.Length == 4 && int.TryParse(array[array.Length - 1], out int num) && num > 0)
-                    {
-                        list2.Add(num);
-                    }
+                    battleAutoSaveName = saveFile.Name;
                 }
             }
-            if (list.Any())
+            if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring(QuickSaveNamePrefix.Length), out int num) && num > 0 && num <= Settings.QuickSaveLimit)
             {
-                QuickSaveIndex = list.Max();
+                QuickSaveIndex = num;
             }
-            if (list2.Any())
+            if (!string.IsNullOrEmpty(battleAutoSaveName) && int.TryParse(battleAutoSaveName.Substring(BattleAutoSaveNamePrefix.Length), out int num2) && num2 > 0 && num2 <= Settings.BattleAutoSaveLimit)
             {
-                BattleAutoSaveIndex = list2.Max();
+                BattleAutoSaveIndex = num2;
             }
             if (ActiveSaveSlotName != null)
             {
