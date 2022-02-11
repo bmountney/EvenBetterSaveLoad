@@ -10,6 +10,7 @@ namespace BetterSaveLoad
             CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(OnNewGameCreated));
             CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(OnGameLoaded));
             CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(OnMapEventStarted));
+            CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(OnMapEventEnded));
         }
         public override void SyncData(IDataStore dataStore) { }
         public void OnNewGameCreated(CampaignGameStarter campaignGameStarter) => BetterSaveLoadManager.InitializeSaveIndexes();
@@ -17,9 +18,17 @@ namespace BetterSaveLoad
         // Auto save when the player enters a battle.
         public void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
         {
-            if (attackerParty == PartyBase.MainParty && defenderParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction))
+            if (mapEvent.IsPlayerMapEvent && (attackerParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction) || defenderParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction)))
             {
-                BetterSaveLoadManager.AutoSaveBeforeBattle(mapEvent);
+                BetterSaveLoadManager.AutoSaveForBattle(mapEvent);
+            }
+        }
+        // Auto save when the player leaves a battle.
+        public void OnMapEventEnded(MapEvent mapEvent)
+        {
+            if (mapEvent.IsPlayerMapEvent)
+            {
+                BetterSaveLoadManager.AutoSaveForBattle(mapEvent);
             }
         }
     }

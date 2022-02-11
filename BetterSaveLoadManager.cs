@@ -90,9 +90,11 @@ namespace BetterSaveLoad
         // Execute only if the numbers of attackers and defenders are greater than or equal to the minimum numbers in the settings.
         // Increment the battle auto save index. Reset the battle auto save index if it is greater than the maximum number in the settings.
         // Display the file name of the saved game in a debug message.
-        public static void AutoSaveBeforeBattle(MapEvent mapEvent)
+        public static void AutoSaveForBattle(MapEvent mapEvent)
         {
-            if (Settings.ShouldAutoSaveBeforeBattle && mapEvent.AttackerSide.TroopCount >= Settings.MinAttackerTroopCount && mapEvent.DefenderSide.TroopCount >= Settings.MinDefenderTroopCount)
+            bool shouldAutoSaveBeforeBattle = !mapEvent.IsFinalized && (Settings.BattleAutoSaveTrigger.SelectedIndex == 0 || Settings.BattleAutoSaveTrigger.SelectedIndex == 2) && mapEvent.AttackerSide.TroopCount >= Settings.MinAttackerTroopCount && mapEvent.DefenderSide.TroopCount >= Settings.MinDefenderTroopCount;
+            bool shouldAutoSaveAfterBattle = mapEvent.IsFinalized && (Settings.BattleAutoSaveTrigger.SelectedIndex == 1 || Settings.BattleAutoSaveTrigger.SelectedIndex == 2);
+            if (Settings.ShouldAutoSaveForBattle && (shouldAutoSaveBeforeBattle || shouldAutoSaveAfterBattle))
             {
                 BattleAutoSaveIndex++;
                 if (Settings.ShouldLimitSaves && BattleAutoSaveIndex > Settings.BattleAutoSaveLimit)

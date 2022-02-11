@@ -1,5 +1,6 @@
 ﻿using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
+using MCM.Abstractions.Dropdown;
 using MCM.Abstractions.Settings.Base.Global;
 
 namespace BetterSaveLoad
@@ -19,13 +20,16 @@ namespace BetterSaveLoad
         [SettingPropertyInteger("Battle Auto Save Limit", 1, 100, "0", Order = 2, RequireRestart = false, HintText = "Maximum number of battle auto saves. Default is 3.")]
         [SettingPropertyGroup("Save Limits", GroupOrder = 0)]
         public int BattleAutoSaveLimit { get; set; } = 3;
-        [SettingPropertyBool("Toggle Battle Auto Save", Order = 0, RequireRestart = false, HintText = "Auto save before battles. Enabled by default.", IsToggle = true)]
+        [SettingPropertyBool("Toggle Battle Auto Save", Order = 0, RequireRestart = false, HintText = "Auto save for battles. Enabled by default.", IsToggle = true)]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
-        public bool ShouldAutoSaveBeforeBattle { get; set; } = true;
-        [SettingPropertyInteger("Minimum Attacker Troop Count", 1, 1000, "0", Order = 1, RequireRestart = false, HintText = "Minimum number of attacking troops to trigger auto saving. Default is 50.")]
+        public bool ShouldAutoSaveForBattle { get; set; } = true;
+        [SettingPropertyDropdown("Trigger", Order = 1, RequireRestart = false, HintText = "When to trigger battle auto saves. Default is Pre-battle.")]
+        [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
+        public DropdownDefault<string> BattleAutoSaveTrigger { get; set; } = new DropdownDefault<string>(new string[] { "Pre-battle", "Post-battle", "Both" }, 0);
+        [SettingPropertyInteger("Minimum Attacker Troop Count", 1, 1000, "0", Order = 2, RequireRestart = false, HintText = "Minimum number of attacking troops to trigger auto saving before battles. Default is 50.")]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
         public int MinAttackerTroopCount { get; set; } = 50;
-        [SettingPropertyInteger("Minimum Defender Troop Count", 1, 1000, "0", Order = 2, RequireRestart = false, HintText = "Minimum number of defending troops to trigger auto saving. Default is 50.")]
+        [SettingPropertyInteger("Minimum Defender Troop Count", 1, 1000, "0", Order = 3, RequireRestart = false, HintText = "Minimum number of defending troops to trigger auto saving before battles. Default is 50.")]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
         public int MinDefenderTroopCount { get; set; } = 50;
     }
