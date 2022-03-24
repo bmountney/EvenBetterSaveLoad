@@ -3,15 +3,18 @@ using HarmonyLib;
 using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.Engine.Screens;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ScreenSystem;
 
 namespace BetterSaveLoad
 {
     // This mod adds functionality for quick loading and incremental quick saving, as well as auto saving before and after battles.
     public class BetterSaveLoadSubModule : MBSubModuleBase
     {
+        private bool _isHotKeyManagerCreated;
+
         protected override void OnSubModuleLoad() => new Harmony("mod.bannerlord.bettersaveload").PatchAll();
+
         // Quick save or quick load when the respective keys are pressed.
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
@@ -50,6 +53,7 @@ namespace BetterSaveLoad
                 _isHotKeyManagerCreated = true;
             }
         }
+
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
             if (game.GameType is Campaign)
@@ -58,6 +62,5 @@ namespace BetterSaveLoad
                 campaignStarter.AddBehavior(new BetterSaveLoadBehavior());
             }
         }
-        private bool _isHotKeyManagerCreated;
     }
 }

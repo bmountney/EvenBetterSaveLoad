@@ -1,5 +1,7 @@
 ﻿using System;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.MapEvents;
+using TaleWorlds.CampaignSystem.Party;
 
 namespace BetterSaveLoad
 {
@@ -12,19 +14,24 @@ namespace BetterSaveLoad
             CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(OnMapEventStarted));
             CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(OnMapEventEnded));
         }
+
         public override void SyncData(IDataStore dataStore) { }
-        public void OnNewGameCreated(CampaignGameStarter campaignGameStarter) => BetterSaveLoadManager.InitializeSaveIndexes();
-        public void OnGameLoaded(CampaignGameStarter campaignGameStarter) => BetterSaveLoadManager.InitializeSaveIndexes();
+
+        private void OnNewGameCreated(CampaignGameStarter campaignGameStarter) => BetterSaveLoadManager.InitializeSaveIndexes();
+
+        private void OnGameLoaded(CampaignGameStarter campaignGameStarter) => BetterSaveLoadManager.InitializeSaveIndexes();
+
         // Auto save when the player enters a battle.
-        public void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
+        private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
         {
             if (mapEvent.IsPlayerMapEvent && (attackerParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction) || defenderParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction)))
             {
                 BetterSaveLoadManager.AutoSaveForBattle(mapEvent);
             }
         }
+
         // Auto save when the player leaves a battle.
-        public void OnMapEventEnded(MapEvent mapEvent)
+        private void OnMapEventEnded(MapEvent mapEvent)
         {
             if (mapEvent.IsPlayerMapEvent)
             {
