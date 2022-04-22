@@ -4,6 +4,7 @@ using SandBox.View.Map;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View.Screen;
 using TaleWorlds.ScreenSystem;
 
 namespace BetterSaveLoad
@@ -27,7 +28,7 @@ namespace BetterSaveLoad
                 BetterSaveLoadHotKeys.L l = hotKeyManager.Add<BetterSaveLoadHotKeys.L>();
                 BetterSaveLoadHotKeys.F9 f9 = hotKeyManager.Add<BetterSaveLoadHotKeys.F9>();
                 s.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                l.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                l.Predicate = () => ScreenManager.TopScreen is MapScreen || ScreenManager.TopScreen is MissionScreen;
                 f9.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 bool isCtrlDown = false;
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;

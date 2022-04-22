@@ -22,6 +22,8 @@ namespace BetterSaveLoad
         private static int BattleAutoSaveIndex = 0;
         private static string ActiveSaveSlotName = null;
 
+        public static string PlayerClanAndMainHeroName => Clan.PlayerClan.Name.ToString().ToLower() + "_" + Hero.MainHero.Name.ToString().ToLower() + "_";
+
         // Get the name of the currently loaded save file.
         [HarmonyPostfix]
         [HarmonyPatch("LoadSaveGameData")]
@@ -42,7 +44,7 @@ namespace BetterSaveLoad
             {
                 QuickSaveIndex = 1;
             }
-            ___ActiveSaveSlotName = QuickSaveNamePrefix + QuickSaveIndex;
+            ___ActiveSaveSlotName = QuickSaveNamePrefix + PlayerClanAndMainHeroName + QuickSaveIndex;
             ActiveSaveSlotName = ___ActiveSaveSlotName;
             InformationManager.DisplayMessage(new InformationMessage("Game saved: \"" + ActiveSaveSlotName + "\"."));
         }
@@ -55,8 +57,8 @@ namespace BetterSaveLoad
             string quickSaveName = string.Empty;
             string battleAutoSaveName = string.Empty;
             List<SaveGameFileInfo> saveFiles = new List<SaveGameFileInfo>(MBSaveLoad.GetSaveFiles());
-            quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(QuickSaveNamePrefix))?.Name;
-            battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(BattleAutoSaveNamePrefix))?.Name;
+            quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(QuickSaveNamePrefix + PlayerClanAndMainHeroName))?.Name;
+            battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName))?.Name;
             if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring(QuickSaveNamePrefix.Length), out int num) && num > 0 && num <= Settings.QuickSaveLimit)
             {
                 QuickSaveIndex = num;
@@ -85,7 +87,7 @@ namespace BetterSaveLoad
                 {
                     BattleAutoSaveIndex = 1;
                 }
-                ActiveSaveSlotName = BattleAutoSaveNamePrefix + BattleAutoSaveIndex;
+                ActiveSaveSlotName = BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName + BattleAutoSaveIndex;
                 Campaign.Current.SaveHandler.SaveAs(ActiveSaveSlotName);
                 InformationManager.DisplayMessage(new InformationMessage("Game saved: \"" + ActiveSaveSlotName + "\"."));
             }
@@ -94,6 +96,7 @@ namespace BetterSaveLoad
         // Get the latest quick save, manual save or auto save.
         public static void QuickLoadPreviousGame()
         {
+            Mission.Current?.RetreatMission();
             SaveGameFileInfo saveFileWithName = MBSaveLoad.GetSaveFileWithName(BannerlordConfig.LatestSaveGameName);
             if (saveFileWithName != null && !saveFileWithName.IsCorrupted)
             {
