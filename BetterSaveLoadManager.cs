@@ -59,6 +59,8 @@ namespace BetterSaveLoad
             List<SaveGameFileInfo> saveFiles = new List<SaveGameFileInfo>(MBSaveLoad.GetSaveFiles());
             quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(QuickSaveNamePrefix + PlayerClanAndMainHeroName))?.Name;
             battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName))?.Name;
+            QuickSaveIndex = 0;
+            BattleAutoSaveIndex = 0;
             if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring((QuickSaveNamePrefix + PlayerClanAndMainHeroName).Length), out int num) && num > 0 && num <= Settings.QuickSaveLimit)
             {
                 QuickSaveIndex = num;
