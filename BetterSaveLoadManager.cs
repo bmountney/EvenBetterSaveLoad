@@ -56,18 +56,20 @@ namespace BetterSaveLoad
         {
             string quickSaveName = string.Empty;
             string battleAutoSaveName = string.Empty;
+            string quickSaveNameNoIndex = QuickSaveNamePrefix + PlayerClanAndMainHeroName;
+            string battleAutoSaveNameNoIndex = BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName;
             List<SaveGameFileInfo> saveFiles = new List<SaveGameFileInfo>(MBSaveLoad.GetSaveFiles());
-            quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(QuickSaveNamePrefix + PlayerClanAndMainHeroName))?.Name;
-            battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName))?.Name;
+            quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(quickSaveNameNoIndex))?.Name;
+            battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(battleAutoSaveNameNoIndex))?.Name;
             QuickSaveIndex = 0;
             BattleAutoSaveIndex = 0;
-            if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring((QuickSaveNamePrefix + PlayerClanAndMainHeroName).Length), out int num) && num > 0 && num <= Settings.QuickSaveLimit)
+            if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring((quickSaveNameNoIndex).Length), out int quickSaveIndex) && quickSaveIndex > 0 && quickSaveIndex <= Settings.QuickSaveLimit)
             {
-                QuickSaveIndex = num;
+                QuickSaveIndex = quickSaveIndex;
             }
-            if (!string.IsNullOrEmpty(battleAutoSaveName) && int.TryParse(battleAutoSaveName.Substring((BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName).Length), out int num2) && num2 > 0 && num2 <= Settings.BattleAutoSaveLimit)
+            if (!string.IsNullOrEmpty(battleAutoSaveName) && int.TryParse(battleAutoSaveName.Substring((battleAutoSaveNameNoIndex).Length), out int battleAutoSaveIndex) && battleAutoSaveIndex > 0 && battleAutoSaveIndex <= Settings.BattleAutoSaveLimit)
             {
-                BattleAutoSaveIndex = num2;
+                BattleAutoSaveIndex = battleAutoSaveIndex;
             }
             if (ActiveSaveSlotName != null)
             {
@@ -98,10 +100,10 @@ namespace BetterSaveLoad
         // Get the latest quick save, manual save or auto save.
         public static void QuickLoadPreviousGame()
         {
-            Mission.Current?.RetreatMission();
             SaveGameFileInfo saveFileWithName = MBSaveLoad.GetSaveFileWithName(BannerlordConfig.LatestSaveGameName);
             if (saveFileWithName != null && !saveFileWithName.IsCorrupted)
             {
+                Mission.Current?.RetreatMission();
                 SandBoxSaveHelper.TryLoadSave(saveFileWithName, new Action<LoadResult>(StartGame), null);
                 return;
             }
