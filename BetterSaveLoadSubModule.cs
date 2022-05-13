@@ -1,10 +1,13 @@
 ﻿using Bannerlord.ButterLib.HotKeys;
 using HarmonyLib;
+using SandBox;
 using SandBox.View.Map;
+using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screen;
+using TaleWorlds.SaveSystem.Load;
 using TaleWorlds.ScreenSystem;
 
 namespace BetterSaveLoad
@@ -61,6 +64,14 @@ namespace BetterSaveLoad
             {
                 CampaignGameStarter campaignStarter = (CampaignGameStarter)gameStarter;
                 campaignStarter.AddBehavior(new BetterSaveLoadBehavior());
+            }
+        }
+
+        public override void OnInitialState()
+        {
+            if (BetterSaveLoadManager.SaveFileWithName != null)
+            {
+                SandBoxSaveHelper.TryLoadSave(BetterSaveLoadManager.SaveFileWithName, new Action<LoadResult>(BetterSaveLoadManager.StartGame), null);
             }
         }
     }

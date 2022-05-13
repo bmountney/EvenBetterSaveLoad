@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using SandBox;
-using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapEvents;
@@ -8,7 +7,6 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.SaveSystem;
 using TaleWorlds.SaveSystem.Load;
-using TaleWorlds.ScreenSystem;
 
 namespace BetterSaveLoad
 {
@@ -23,6 +21,8 @@ namespace BetterSaveLoad
         private static string ActiveSaveSlotName = null;
 
         public static string PlayerClanAndMainHeroName => Clan.PlayerClan.Name.ToString().ToLower() + "_" + Hero.MainHero.Name.ToString().ToLower() + "_";
+
+        public static SaveGameFileInfo SaveFileWithName { get; set; }
 
         // Get the name of the currently loaded save file.
         [HarmonyPostfix]
@@ -56,18 +56,18 @@ namespace BetterSaveLoad
         {
             string quickSaveName = string.Empty;
             string battleAutoSaveName = string.Empty;
-            string quickSaveNameNoIndex = QuickSaveNamePrefix + PlayerClanAndMainHeroName;
-            string battleAutoSaveNameNoIndex = BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName;
+            string quickSaveNameWithoutIndex = QuickSaveNamePrefix + PlayerClanAndMainHeroName;
+            string battleAutoSaveNameWithoutIndex = BattleAutoSaveNamePrefix + PlayerClanAndMainHeroName;
             List<SaveGameFileInfo> saveFiles = new List<SaveGameFileInfo>(MBSaveLoad.GetSaveFiles());
-            quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(quickSaveNameNoIndex))?.Name;
-            battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(battleAutoSaveNameNoIndex))?.Name;
+            quickSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(quickSaveNameWithoutIndex))?.Name;
+            battleAutoSaveName = saveFiles.Find(saveFile => saveFile.Name.StartsWith(battleAutoSaveNameWithoutIndex))?.Name;
             QuickSaveIndex = 0;
             BattleAutoSaveIndex = 0;
-            if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring((quickSaveNameNoIndex).Length), out int quickSaveIndex) && quickSaveIndex > 0 && quickSaveIndex <= Settings.QuickSaveLimit)
+            if (!string.IsNullOrEmpty(quickSaveName) && int.TryParse(quickSaveName.Substring((quickSaveNameWithoutIndex).Length), out int quickSaveIndex) && quickSaveIndex > 0 && quickSaveIndex <= Settings.QuickSaveLimit)
             {
                 QuickSaveIndex = quickSaveIndex;
             }
-            if (!string.IsNullOrEmpty(battleAutoSaveName) && int.TryParse(battleAutoSaveName.Substring((battleAutoSaveNameNoIndex).Length), out int battleAutoSaveIndex) && battleAutoSaveIndex > 0 && battleAutoSaveIndex <= Settings.BattleAutoSaveLimit)
+            if (!string.IsNullOrEmpty(battleAutoSaveName) && int.TryParse(battleAutoSaveName.Substring((battleAutoSaveNameWithoutIndex).Length), out int battleAutoSaveIndex) && battleAutoSaveIndex > 0 && battleAutoSaveIndex <= Settings.BattleAutoSaveLimit)
             {
                 BattleAutoSaveIndex = battleAutoSaveIndex;
             }
@@ -100,21 +100,18 @@ namespace BetterSaveLoad
         // Get the latest quick save, manual save or auto save.
         public static void QuickLoadPreviousGame()
         {
-            SaveGameFileInfo saveFileWithName = MBSaveLoad.GetSaveFileWithName(BannerlordConfig.LatestSaveGameName);
-            if (saveFileWithName != null && !saveFileWithName.IsCorrupted)
+            SaveFileWithName = MBSaveLoad.GetSaveFileWithName(BannerlordConfig.LatestSaveGameName);
+            if (SaveFileWithName != null && !SaveFileWithName.IsCorrupted)
             {
-                Mission.Current?.RetreatMission();
-                SandBoxSaveHelper.TryLoadSave(saveFileWithName, new Action<LoadResult>(StartGame), null);
+                MBGameManager.EndGame();
                 return;
             }
             InformationManager.DisplayMessage(new InformationMessage("No save files to load!"));
         }
 
-        private static void StartGame(LoadResult loadResult)
+        public static void StartGame(LoadResult loadResult)
         {
-            ScreenManager.PopScreen();
-            GameStateManager.Current.CleanStates(0);
-            GameStateManager.Current = Module.CurrentModule.GlobalGameStateManager;
+            SaveFileWithName = null;
             MBGameManager.StartNewGame(new SandBoxGameManager(loadResult));
         }
     }
