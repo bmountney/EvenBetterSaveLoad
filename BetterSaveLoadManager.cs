@@ -22,6 +22,8 @@ namespace BetterSaveLoad
 
         public static string PlayerClanAndMainHeroName => Clan.PlayerClan.Name.ToString().ToLower() + "_" + Hero.MainHero.Name.ToString().ToLower() + "_";
 
+        public static bool CanLoad => SaveFileWithName != null && !SaveFileWithName.IsCorrupted;
+
         public static SaveGameFileInfo SaveFileWithName { get; set; }
 
         // Get the name of the currently loaded save file.
@@ -101,7 +103,7 @@ namespace BetterSaveLoad
         public static void QuickLoadPreviousGame()
         {
             SaveFileWithName = MBSaveLoad.GetSaveFileWithName(BannerlordConfig.LatestSaveGameName);
-            if (SaveFileWithName != null && !SaveFileWithName.IsCorrupted)
+            if (CanLoad)
             {
                 MBGameManager.EndGame();
                 return;

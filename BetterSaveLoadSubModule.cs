@@ -69,7 +69,7 @@ namespace BetterSaveLoad
 
         public override void OnInitialState()
         {
-            if (BetterSaveLoadManager.SaveFileWithName != null)
+            if (BetterSaveLoadManager.CanLoad)
             {
                 SandBoxSaveHelper.TryLoadSave(BetterSaveLoadManager.SaveFileWithName, new Action<LoadResult>(BetterSaveLoadManager.StartGame), null);
             }
