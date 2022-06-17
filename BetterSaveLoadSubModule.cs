@@ -6,7 +6,7 @@ using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.View.Screen;
+using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.SaveSystem.Load;
 using TaleWorlds.ScreenSystem;
 
