@@ -1,7 +1,7 @@
 ﻿using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
-using MCM.Abstractions.Dropdown;
-using MCM.Abstractions.Settings.Base.Global;
+using MCM.Abstractions.Base.Global;
+using MCM.Common;
 
 namespace BetterSaveLoad
 {
@@ -33,7 +33,7 @@ namespace BetterSaveLoad
 
         [SettingPropertyDropdown("Trigger", Order = 1, RequireRestart = false, HintText = "When to trigger battle auto saves. Default is Pre-battle.")]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
-        public DropdownDefault<string> BattleAutoSaveTrigger { get; set; } = new DropdownDefault<string>(new string[] { "Pre-battle", "Post-battle", "Both" }, 0);
+        public Dropdown<string> BattleAutoSaveTrigger { get; set; } = new Dropdown<string>(new string[] { "Pre-battle", "Post-battle", "Both" }, 0);
 
         [SettingPropertyInteger("Minimum Attacker Troop Count", 1, 1000, "0", Order = 2, RequireRestart = false, HintText = "Minimum number of attacking troops to trigger auto saving before battles. Default is 50.")]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
