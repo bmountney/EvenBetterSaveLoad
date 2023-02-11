@@ -35,11 +35,11 @@ namespace BetterSaveLoad
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
         public Dropdown<string> BattleAutoSaveTrigger { get; set; } = new Dropdown<string>(new string[] { "Pre-battle", "Post-battle", "Both" }, 0);
 
-        [SettingPropertyInteger("Minimum Attacker Troop Count", 1, 1000, "0", Order = 2, RequireRestart = false, HintText = "Minimum number of attacking troops to trigger auto saving before battles. Default is 50.")]
+        [SettingPropertyInteger("Minimum Attacker Troop Count", 1, 1000, "0", Order = 2, RequireRestart = false, HintText = "Minimum number of attacking troops to trigger auto saving before and after battles. Default is 50.")]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
         public int MinAttackerTroopCount { get; set; } = 50;
 
-        [SettingPropertyInteger("Minimum Defender Troop Count", 1, 1000, "0", Order = 3, RequireRestart = false, HintText = "Minimum number of defending troops to trigger auto saving before battles. Default is 50.")]
+        [SettingPropertyInteger("Minimum Defender Troop Count", 1, 1000, "0", Order = 3, RequireRestart = false, HintText = "Minimum number of defending troops to trigger auto saving before and after battles. Default is 50.")]
         [SettingPropertyGroup("Battle Auto Save", GroupOrder = 1)]
         public int MinDefenderTroopCount { get; set; } = 50;
     }
