@@ -21,20 +21,20 @@ namespace BetterSaveLoad
 
         private void OnGameLoaded(CampaignGameStarter campaignGameStarter) => BetterSaveLoadManager.InitializeSaveIndexes();
 
-        // Auto save when the player enters a battle.
         private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
         {
             if (mapEvent.IsPlayerMapEvent && (attackerParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction) || defenderParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction)))
             {
+                // Auto save when the player enters a battle.
                 BetterSaveLoadManager.AutoSaveForBattle(mapEvent);
             }
         }
 
-        // Auto save when the player leaves a battle.
         private void OnMapEventEnded(MapEvent mapEvent)
         {
             if (mapEvent.IsPlayerMapEvent)
             {
+                // Auto save when the player leaves a battle.
                 BetterSaveLoadManager.AutoSaveForBattle(mapEvent);
             }
         }

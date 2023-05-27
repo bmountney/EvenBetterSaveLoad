@@ -19,7 +19,6 @@ namespace BetterSaveLoad
 
         protected override void OnSubModuleLoad() => new Harmony("mod.bannerlord.bettersaveload").PatchAll();
 
-        // Quick save or quick load when the respective keys are pressed.
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
             if (!_isHotKeyManagerCreated)
@@ -30,14 +29,16 @@ namespace BetterSaveLoad
                 BetterSaveLoadHotKeys.S s = hotKeyManager.Add<BetterSaveLoadHotKeys.S>();
                 BetterSaveLoadHotKeys.L l = hotKeyManager.Add<BetterSaveLoadHotKeys.L>();
                 BetterSaveLoadHotKeys.F9 f9 = hotKeyManager.Add<BetterSaveLoadHotKeys.F9>();
+                bool isCtrlDown = false;
+
                 s.Predicate = () => ScreenManager.TopScreen is MapScreen;
                 l.Predicate = () => ScreenManager.TopScreen is MapScreen || ScreenManager.TopScreen is MissionScreen;
                 f9.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                bool isCtrlDown = false;
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
                 lCtrl.OnReleasedEvent += () => isCtrlDown = false;
                 rCtrl.OnPressedEvent += () => isCtrlDown = true;
                 rCtrl.OnReleasedEvent += () => isCtrlDown = false;
+
                 s.OnPressedEvent += () =>
                 {
                     if (isCtrlDown)
@@ -45,6 +46,7 @@ namespace BetterSaveLoad
                         Campaign.Current.SaveHandler.QuickSaveCurrentGame();
                     }
                 };
+
                 l.OnPressedEvent += () =>
                 {
                     if (isCtrlDown)
@@ -52,18 +54,21 @@ namespace BetterSaveLoad
                         BetterSaveLoadManager.QuickLoadPreviousGame();
                     }
                 };
+
                 f9.OnPressedEvent += () => BetterSaveLoadManager.QuickLoadPreviousGame();
                 hotKeyManager.Build();
+
                 _isHotKeyManagerCreated = true;
             }
         }
 
-        protected override void OnGameStart(Game game, IGameStarter gameStarter)
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
             if (game.GameType is Campaign)
             {
-                CampaignGameStarter campaignStarter = (CampaignGameStarter)gameStarter;
-                campaignStarter.AddBehavior(new BetterSaveLoadBehavior());
+                CampaignGameStarter campaignGameStarter = (CampaignGameStarter)gameStarterObject;
+
+                campaignGameStarter.AddBehavior(new BetterSaveLoadBehavior());
             }
         }
 
@@ -71,7 +76,7 @@ namespace BetterSaveLoad
         {
             if (BetterSaveLoadManager.CanLoad)
             {
-                SandBoxSaveHelper.TryLoadSave(BetterSaveLoadManager.SaveFileWithName, new Action<LoadResult>(BetterSaveLoadManager.StartGame), null);
+                SandBoxSaveHelper.TryLoadSave(BetterSaveLoadManager.SaveFile, new Action<LoadResult>(BetterSaveLoadManager.StartGame), null);
             }
         }
     }
