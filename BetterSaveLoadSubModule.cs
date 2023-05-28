@@ -29,11 +29,12 @@ namespace BetterSaveLoad
                 BetterSaveLoadHotKeys.S s = hotKeyManager.Add<BetterSaveLoadHotKeys.S>();
                 BetterSaveLoadHotKeys.L l = hotKeyManager.Add<BetterSaveLoadHotKeys.L>();
                 BetterSaveLoadHotKeys.F9 f9 = hotKeyManager.Add<BetterSaveLoadHotKeys.F9>();
+                ScreenBase topScreen = ScreenManager.TopScreen;
                 bool isCtrlDown = false;
 
-                s.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                l.Predicate = () => ScreenManager.TopScreen is MapScreen || ScreenManager.TopScreen is MissionScreen;
-                f9.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                s.Predicate = () => topScreen is MapScreen;
+                l.Predicate = () => topScreen is MapScreen || topScreen is MissionScreen;
+                f9.Predicate = () => topScreen is MapScreen;
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
                 lCtrl.OnReleasedEvent += () => isCtrlDown = false;
                 rCtrl.OnPressedEvent += () => isCtrlDown = true;
