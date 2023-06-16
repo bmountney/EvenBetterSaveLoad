@@ -66,9 +66,7 @@ namespace BetterSaveLoad
         {
             if (game.GameType is Campaign)
             {
-                CampaignGameStarter campaignGameStarter = (CampaignGameStarter)gameStarterObject;
-
-                campaignGameStarter.AddBehavior(new BetterSaveLoadBehavior());
+                ((CampaignGameStarter)gameStarterObject).AddBehavior(new BetterSaveLoadBehavior());
             }
         }
 
