@@ -34,7 +34,7 @@ namespace BetterSaveLoad
 
         [SettingPropertyDropdown("{=BSLopt005}Trigger", Order = 1, RequireRestart = false, HintText = "{=BSLopt005Hint}When to trigger battle auto saves. Default is Pre-battle.")]
         [SettingPropertyGroup("{=BSLoptg002}Battle Auto Save", GroupOrder = 1)]
-        public Dropdown<string> BattleAutoSaveTrigger { get; set; } = new Dropdown<string>(new string[] { new TextObject("{=BSLoptv001}Pre-battle").ToString(), new TextObject("{=BSLoptv002}Post-battle").ToString(), new TextObject("{=BSLoptv003}Both").ToString() }, 0);
+        public Dropdown<TextObject> BattleAutoSaveTrigger { get; set; } = new Dropdown<TextObject>(new TextObject[] { new TextObject("{=BSLoptv001}Pre-battle"), new TextObject("{=BSLoptv002}Post-battle"), new TextObject("{=BSLoptv003}Both") }, 0);
 
         [SettingPropertyInteger("{=BSLopt006}Minimum Attacker Troop Count", 1, 1000, "0", Order = 2, RequireRestart = false, HintText = "{=BSLopt006Hint}Minimum number of attacking troops to trigger auto saving before and after battles. Default is 50.")]
         [SettingPropertyGroup("{=BSLoptg002}Battle Auto Save", GroupOrder = 1)]
