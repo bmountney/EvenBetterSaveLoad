@@ -19,10 +19,10 @@
   <string id="BSLopt006" text="Minimum Attacker Troop Count"/>
   <string id="BSLopt006Hint" text="Minimum number of attacking troops to trigger auto saving before and after battles. Default is 50."/>
   <string id="BSLopt007" text="Minimum Defender Troop Count"/>
-  <string id="BSLopt007Hint" text="}Minimum number of defending troops to trigger auto saving before and after battles. Default is 50."/>
+  <string id="BSLopt007Hint" text="Minimum number of defending troops to trigger auto saving before and after battles. Default is 50."/>
   <string id="BSLoptv001" text="Pre-battle"/>
   <string id="BSLoptv002" text="Post-battle"/>
-  <string id="BSLoptv002" text="Both"/>
+  <string id="BSLoptv003" text="Both"/>
   <string id="BSLmsg001" text="Game saved: &quot;{SAVENAME}&quot;."/>
   <string id="BSLmsg002" text="Game loaded: &quot;{SAVENAME}&quot;."/>
   <string id="BSLmsg003" text="No save files to load!"/>
