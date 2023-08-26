@@ -8,6 +8,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.SaveSystem;
 using TaleWorlds.SaveSystem.Load;
+using TaleWorlds.Localization;
 
 namespace BetterSaveLoad
 {
@@ -53,7 +54,7 @@ namespace BetterSaveLoad
             ActiveSaveSlotName = ___ActiveSaveSlotName;
 
             // Display the file name of the saved game in a debug message.
-            InformationManager.DisplayMessage(new InformationMessage("Game saved: \"" + ActiveSaveSlotName + "\"."));
+            InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=BSLmsg001}Game saved: \"{SAVENAME}\".").SetTextVariable("SAVENAME", ActiveSaveSlotName).ToString()));
         }
 
         public static void InitializeSaveIndexes()
@@ -81,7 +82,7 @@ namespace BetterSaveLoad
             if (ActiveSaveSlotName != null)
             {
                 // Display the file name of the loaded game in a debug message.
-                InformationManager.DisplayMessage(new InformationMessage("Game loaded: \"" + ActiveSaveSlotName + "\"."));
+                InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=BSLmsg002}Game loaded: \"{SAVENAME}\".").SetTextVariable("SAVENAME", ActiveSaveSlotName).ToString()));
             }
         }
 
@@ -106,7 +107,7 @@ namespace BetterSaveLoad
 
                 Campaign.Current.SaveHandler.SaveAs(ActiveSaveSlotName);
                 // Display the file name of the saved game in a debug message.
-                InformationManager.DisplayMessage(new InformationMessage("Game saved: \"" + ActiveSaveSlotName + "\"."));
+                InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=BSLmsg001}Game saved: \"{SAVENAME}\".").SetTextVariable("SAVENAME", ActiveSaveSlotName).ToString()));
             }
         }
 
@@ -122,7 +123,7 @@ namespace BetterSaveLoad
                 return;
             }
 
-            InformationManager.DisplayMessage(new InformationMessage("No save files to load!"));
+            InformationManager.DisplayMessage(new InformationMessage(new TextObject("{=BSLmsg003}No save files to load!").ToString()));
         }
 
         public static void StartGame(LoadResult loadResult)

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base>
+ <tags>
+  <tag language="English"/>
+ </tags>
+ <strings>
+  <string id="BSLoptg001" text="Save Limits"/>
+  <string id="BSLoptg002" text="Battle Auto Save"/>
+  <string id="BSLopt001" text="Toggle Save Limits"/>
+  <string id="BSLopt001Hint" text="Limit number of quick saves and battle auto saves. Enabled by default."/>
+  <string id="BSLopt002" text="Quick Save Limit"/>
+  <string id="BSLopt002Hint" text="Maximum number of quick saves. Default is 3."/>
+  <string id="BSLopt003" text="Battle Auto Save Limit"/>
+  <string id="BSLopt003Hint" text="Maximum number of battle auto saves. Default is 3."/>
+  <string id="BSLopt004" text="Toggle Battle Auto Save"/>
+  <string id="BSLopt004Hint" text="Auto save for battles. Enabled by default."/>
+  <string id="BSLopt005" text="Trigger"/>
+  <string id="BSLopt005Hint" text="When to trigger battle auto saves. Default is Pre-battle."/>
+  <string id="BSLopt006" text="Minimum Attacker Troop Count"/>
+  <string id="BSLopt006Hint" text="Minimum number of attacking troops to trigger auto saving before and after battles. Default is 50."/>
+  <string id="BSLopt007" text="Minimum Defender Troop Count"/>
+  <string id="BSLopt007Hint" text="}Minimum number of defending troops to trigger auto saving before and after battles. Default is 50."/>
+  <string id="BSLoptv001" text="Pre-battle"/>
+  <string id="BSLoptv002" text="Post-battle"/>
+  <string id="BSLoptv002" text="Both"/>
+  <string id="BSLmsg001" text="Game saved: &quot;{SAVENAME}&quot;."/>
+  <string id="BSLmsg002" text="Game loaded: &quot;{SAVENAME}&quot;."/>
+  <string id="BSLmsg003" text="No save files to load!"/>
+ </strings>
+</base>
