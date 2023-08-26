@@ -31,31 +31,18 @@ namespace BetterSaveLoad
                 BetterSaveLoadHotKeys.F9 f9 = hotKeyManager.Add<BetterSaveLoadHotKeys.F9>();
                 bool isCtrlDown = false;
 
-                s.Predicate = () => ScreenManager.TopScreen is MapScreen;
-                l.Predicate = () => ScreenManager.TopScreen is MapScreen || ScreenManager.TopScreen is MissionScreen;
-                f9.Predicate = () => ScreenManager.TopScreen is MapScreen;
+                s.Predicate = () => Campaign.Current != null && ScreenManager.TopScreen is MapScreen && isCtrlDown;
+                l.Predicate = () => Campaign.Current != null && (ScreenManager.TopScreen is MapScreen || ScreenManager.TopScreen is MissionScreen) && isCtrlDown;
+                f9.Predicate = () => Campaign.Current != null && ScreenManager.TopScreen is MapScreen;
+
                 lCtrl.OnPressedEvent += () => isCtrlDown = true;
                 lCtrl.OnReleasedEvent += () => isCtrlDown = false;
                 rCtrl.OnPressedEvent += () => isCtrlDown = true;
                 rCtrl.OnReleasedEvent += () => isCtrlDown = false;
-
-                s.OnPressedEvent += () =>
-                {
-                    if (isCtrlDown)
-                    {
-                        Campaign.Current.SaveHandler.QuickSaveCurrentGame();
-                    }
-                };
-
-                l.OnPressedEvent += () =>
-                {
-                    if (isCtrlDown)
-                    {
-                        BetterSaveLoadManager.QuickLoadPreviousGame();
-                    }
-                };
-
+                s.OnPressedEvent += () => Campaign.Current.SaveHandler.QuickSaveCurrentGame();
+                l.OnPressedEvent += () => BetterSaveLoadManager.QuickLoadPreviousGame();
                 f9.OnPressedEvent += () => BetterSaveLoadManager.QuickLoadPreviousGame();
+
                 hotKeyManager.Build();
 
                 _isHotKeyManagerCreated = true;
