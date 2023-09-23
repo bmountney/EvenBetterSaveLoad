@@ -87,7 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BetterSaveLoadBehavior.cs" />
+    <Compile Include="BetterSaveLoadCampaignBehavior.cs" />
     <Compile Include="BetterSaveLoadHotKeys.cs" />
     <Compile Include="BetterSaveLoadManager.cs" />
     <Compile Include="BetterSaveLoadSettings.cs" />
