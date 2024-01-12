@@ -23,7 +23,7 @@ namespace BetterSaveLoad
 
         private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
         {
-            if (mapEvent.IsPlayerMapEvent && (attackerParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction) || defenderParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction)))
+            if (mapEvent.IsPlayerMapEvent && ((attackerParty.MapFaction != null && attackerParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction)) || (defenderParty.MapFaction != null && defenderParty.MapFaction.IsAtWarWith(PartyBase.MainParty.MapFaction))))
             {
                 // Auto save when the player enters a battle.
                 BetterSaveLoadManager.AutoSaveForBattle(mapEvent);
