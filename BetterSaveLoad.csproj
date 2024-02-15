@@ -88,7 +88,6 @@
   <ItemGroup>
     <Compile Include="BetterSaveLoadCampaignBehavior.cs" />
     <Compile Include="BetterSaveLoadManager.cs" />
-    <Compile Include="BetterSaveLoadMissionBehavior.cs" />
     <Compile Include="BetterSaveLoadSettings.cs" />
     <Compile Include="BetterSaveLoadSubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
