@@ -32,16 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Bannerlord.Lib.Harmony.2.2.2\lib\net472\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MCMv5, Version=5.9.2.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Bannerlord.MCM.5.9.2\lib\netstandard2.0\MCMv5.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SandBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Games\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
@@ -107,26 +100,31 @@
     <Compile Include="BetterSaveLoadSubModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SubModule.xml" />
-    <Content Include="SubModule_dev.xml" />
+    <Content Include="SubModule_Release.xml" />
+    <Content Include="SubModule_Debug.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Bannerlord.MCM">
+      <Version>5.9.2</Version>
+    </PackageReference>
+    <PackageReference Include="Lib.Harmony">
+      <Version>2.3.1.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF $(ConfigurationName) == Release GOTO Release
-IF $(ConfigurationName) == Debug GOTO Debug
+    <PostBuildEvent>IF $(Configuration) == Release GOTO Release
+IF $(Configuration) == Debug GOTO Debug
 
 :Release
-COPY "$(ProjectDir)\SubModule.xml" "$(TargetDir)..\..\SubModule.xml"
+COPY "$(SolutionDir)SubModule_Release.xml" "$(TargetDir)..\..\SubModule.xml"
 GOTO End
 
 :Debug
-COPY "$(ProjectDir)\SubModule_dev.xml" "$(TargetDir)..\..\SubModule.xml"
+COPY "$(SolutionDir)SubModule_Debug.xml" "$(TargetDir)..\..\SubModule.xml"
 GOTO End
 
 :End
